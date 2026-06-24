@@ -32,11 +32,24 @@ public class MinijuegoManager : MonoBehaviour
     [Tooltip("El script de los binoculares para apagarlo al sacar la foto.")]
     [SerializeField] private EfectoBinoculares scriptBinoculares;
 
-    [Tooltip("RawImage en el Canvas donde se muestra la foto del acierto.")]
-    [SerializeField] private UnityEngine.UI.RawImage uiFoto;
+    [Tooltip("Script del flash de cámara para dispararlo al acertar.")]
+    [SerializeField] private EfectoFlash scriptFlash;
+
+    [Tooltip("Script del panel animado que presenta la foto al acertar.")]
+    [SerializeField] private PanelFoto panelFoto;
 
     [Tooltip("Radio en píxeles para considerar un clic como acierto sobre el objetivo.")]
     [SerializeField] private float radioClicPixeles = 50f;
+
+    [Header("Cámara Foto (close-up del objeto encontrado)")]
+    [Tooltip("Cámara separada que se posiciona cerca del objeto al acertar.")]
+    [SerializeField] private Camera camaraFoto;
+
+    [Tooltip("A cuántas unidades del objeto se ubica la cámara foto (se escala con el tamaño del objeto).")]
+    [SerializeField] private float distanciaFoto = 3f;
+
+    [Tooltip("Offset de posición relativo al objeto (normalizado internamente). Permite elegir el ángulo de la foto.")]
+    [SerializeField] private Vector3 offsetFoto = new Vector3(0.8f, 0.4f, -1f);
 
     [Header("UI del Objetivo a Buscar")]
     [Tooltip("Cámara alejada (ej: Y=1000) que filmará el objeto a buscar.")]
@@ -231,23 +244,48 @@ public class MinijuegoManager : MonoBehaviour
 
     void TomarFotoYReiniciar()
     {
+        if (scriptFlash != null) scriptFlash.Disparar();
+
         LimpiarFoto();
 
-        fotoRT = new RenderTexture(Screen.width, Screen.height, 16);
+        fotoRT = new RenderTexture(512, 512, 16);
         fotoRT.Create();
 
-        if (scriptBinoculares != null) scriptBinoculares.activarEfecto = false;
+        if (camaraFoto != null)
+            CapturarConCamaraFoto();
+        else
+            CapturarConCamaraPrincipal();
 
-        camaraPrincipal.targetTexture = fotoRT;
-        camaraPrincipal.Render();
-
-        camaraPrincipal.targetTexture = null;
-        if (scriptBinoculares != null) scriptBinoculares.activarEfecto = true;
-
-        if (uiFoto != null)
-            uiFoto.texture = fotoRT;
+        if (panelFoto != null)
+            panelFoto.MostrarFoto(fotoRT);
 
         Reiniciar();
+    }
+
+    void CapturarConCamaraFoto()
+    {
+        Vector3 posObjetivo  = posicionesMundoActuales[indiceObjetivoUnico];
+        float   escalaMaxima = Mathf.Max(escalas[indiceObjetivoUnico].x,
+                                         escalas[indiceObjetivoUnico].y,
+                                         escalas[indiceObjetivoUnico].z);
+
+        // Posiciona la cámara en un ángulo fijo alrededor del objeto, escalando con su tamaño
+        Vector3 direccion = offsetFoto.normalized;
+        camaraFoto.transform.position = posObjetivo + direccion * (distanciaFoto * escalaMaxima);
+        camaraFoto.transform.LookAt(posObjetivo);
+
+        camaraFoto.targetTexture = fotoRT;
+        camaraFoto.Render();
+        camaraFoto.targetTexture = null;
+    }
+
+    void CapturarConCamaraPrincipal()
+    {
+        if (scriptBinoculares != null) scriptBinoculares.activarEfecto = false;
+        camaraPrincipal.targetTexture = fotoRT;
+        camaraPrincipal.Render();
+        camaraPrincipal.targetTexture = null;
+        if (scriptBinoculares != null) scriptBinoculares.activarEfecto = true;
     }
 
     // ── Limpieza de VRAM ──────────────────────────────────────────────────

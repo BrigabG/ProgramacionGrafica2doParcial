@@ -5,7 +5,6 @@ Shader "PostFX_Flashbang"
 	Properties
 	{
 		_MainTex ( "Screen", 2D ) = "black" {}
-		_MainTex("Main Tex", 2D) = "white" {}
 		_Flash("Flash", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 

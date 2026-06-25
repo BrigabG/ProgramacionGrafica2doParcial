@@ -30,6 +30,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlurStrength: 0.02
-    - _Wake: 0.9010119
+    - _Wake: 0.2733467
     m_Colors: []
   m_BuildTextureStacks: []

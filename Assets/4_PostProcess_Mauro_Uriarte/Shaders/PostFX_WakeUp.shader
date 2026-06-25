@@ -5,7 +5,6 @@ Shader "PostFX_WakeUp"
 	Properties
 	{
 		_MainTex ( "Screen", 2D ) = "black" {}
-		_MainTex("Main Tex", 2D) = "white" {}
 		_Wake("Wake", Float) = 1
 		_BlurStrength("Blur Strength", Float) = 0.02
 

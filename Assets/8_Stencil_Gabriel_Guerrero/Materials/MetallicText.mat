@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Binoculars
-  m_Shader: {fileID: 4800000, guid: c04cd31c1e2f7ab4e97295d7f81675fd, type: 3}
+  m_Name: MetallicText
+  m_Shader: {fileID: 4800000, guid: 21176654fad7d07469125b455302af98, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,7 +20,15 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - _Cards2_metallic:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cards2_metallic1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -30,9 +38,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Radio: 0.2
-    - _Suavidad: 0.22
+    - _Metallicforce: 1
+    - _Power: 0
+    - _Scale: 0
+    - __dirty: 0
     m_Colors:
-    - _CentroDer: {r: 0.5256265, g: 1.1629893, b: 0, a: 0}
-    - _CentroIzq: {r: 0.36562645, g: 1.1629893, b: 0, a: 0}
+    - _ColorMetalico: {r: 1, g: 0.9154929, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FadeUI
-  m_Shader: {fileID: 4800000, guid: 72b80f3546a92fb4e89f3f98d23811f6, type: 3}
+  m_Name: Unlit_BackGround
+  m_Shader: {fileID: 4800000, guid: 3c73736b463d0c54e91a71b8f3c0ec87, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,25 +20,21 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - _texcoord:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture:
-        m_Texture: {fileID: 2800000, guid: bd910a1d744309b499b59062db7891ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ColorMask: 15
-    - _Progress: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Suavidad: 0.1
-    - _UseUIAlphaClip: 0
+    - __dirty: 0
+    - _scale1: 2
+    - _scale2: 3
+    - _scale3: 4
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Vel1: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Vel2: {r: 0.7, g: 0.7, b: 0, a: 0}
+    - _Vel3: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _col1: {r: 0.28411078, g: 0.21800455, b: 0.6698113, a: 0}
+    - _col2: {r: 0.22429407, g: 0.18623167, b: 0.42452827, a: 0}
+    - _col3: {r: 0.30149817, g: 0.22316656, b: 0.5566037, a: 0}
   m_BuildTextureStacks: []

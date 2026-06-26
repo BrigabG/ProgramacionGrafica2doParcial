@@ -163,7 +163,7 @@ Shader "DistorcionUI"
 }
 /*ASEBEGIN
 Version=18900
-306;81;885;632;2164.819;1468.738;4.238129;True;False
+268;73;1030;644;538.9468;1130.651;1.678015;True;False
 Node;AmplifyShaderEditor.TexturePropertyNode;3;-696.0959,-47.92942;Inherit;True;Property;_DistNormal;DistNormal;9;0;Create;True;0;0;0;False;0;False;302951faffe230848aa0d3df7bb70faa;302951faffe230848aa0d3df7bb70faa;True;bump;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.TexturePropertyNode;2;-583.8986,-274.9145;Inherit;True;Property;_Texture0;Texture 0;8;0;Create;True;0;0;0;False;0;False;80ab37a9e4f49c842903bb43bdd7bcd2;80ab37a9e4f49c842903bb43bdd7bcd2;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.TexturePropertyNode;5;-597.8204,258.5568;Inherit;True;Property;_Texture1;Texture 1;10;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
@@ -187,4 +187,4 @@ WireConnection;7;2;6;2
 WireConnection;7;3;8;0
 WireConnection;0;0;7;0
 ASEEND*/
-//CHKSM=33D84547C1F7462336E0AE8DCDD16E049874D89C
+//CHKSM=DEF6F5A1827AA8FB5AD4402EE3CB1BBFE9D32766

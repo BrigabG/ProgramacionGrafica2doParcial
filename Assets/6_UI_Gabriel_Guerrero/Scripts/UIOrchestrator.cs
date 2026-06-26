@@ -28,6 +28,15 @@ public class UIOrchestrator : MonoBehaviour
     public float distFloat1Duration = 1f;
     public float distFloat1Delay    = 0f;
 
+    // ── Titulo (empujar hacia arriba, queda en pantalla) ────────────────────
+    [Header("Push Titulo (sube y queda en pantalla)")]
+    public RectTransform tituloTransform;
+    [Tooltip("Cantidad de pixels que sube el titulo")]
+    public float tituloPushDistance = 100f;
+    public float tituloPushDuration = 0.6f;
+    public float tituloPushDelay    = 0f;
+    public AnimationCurve tituloPushCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
     // ── BurnUI ───────────────────────────────────────────────────────────────
     [Header("BurnUI  — _Progress  -1 → 1")]
     public Material burnUIMaterial;
@@ -68,6 +77,9 @@ public class UIOrchestrator : MonoBehaviour
             StartCoroutine(AnimateFloat(distorcionUIMaterial, "_Float1",   2.5f, 0f, distFloat1Duration,  distFloat1Delay));
         }
 
+        if (tituloTransform != null)
+            StartCoroutine(AnimatePushTitulo());
+
         if (burnUIMaterial != null)
             StartCoroutine(AnimateFloat(burnUIMaterial, "_Progress", -1f, 1f, burnDuration, burnDelay));
 
@@ -104,6 +116,26 @@ public class UIOrchestrator : MonoBehaviour
         // Asegurar posicion final exacta
         for (int i = 0; i < scrollElements.Length; i++)
             scrollElements[i].anchoredPosition = origins[i] + new Vector2(0f, slideDistance);
+    }
+
+    IEnumerator AnimatePushTitulo()
+    {
+        if (tituloPushDelay > 0f) yield return new WaitForSeconds(tituloPushDelay);
+
+        Vector2 origin = tituloTransform.anchoredPosition;
+        Vector2 target = origin + new Vector2(0f, tituloPushDistance);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / Mathf.Max(tituloPushDuration, 0.001f);
+            tituloTransform.anchoredPosition = Vector2.LerpUnclamped(
+                origin, target, tituloPushCurve.Evaluate(Mathf.Clamp01(t))
+            );
+            yield return null;
+        }
+
+        tituloTransform.anchoredPosition = target;
     }
 
     IEnumerator AnimateFloat(Material mat, string prop, float from, float to, float duration, float delay)

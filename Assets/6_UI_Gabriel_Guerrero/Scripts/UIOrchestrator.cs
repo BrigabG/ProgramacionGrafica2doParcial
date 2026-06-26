@@ -6,44 +6,62 @@ public class UIOrchestrator : MonoBehaviour
     // ── Scroll de elementos ──────────────────────────────────────────────────
     [Header("Scroll (deslizar hacia arriba)")]
     public RectTransform[] scrollElements;
-    [Tooltip("Distancia en pixels que suben desde su posicion inicial")]
     public float slideDistance   = 150f;
     public float slideDuration   = 0.8f;
     public float slideDelay      = 0f;
     public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     // ── FadeUI ───────────────────────────────────────────────────────────────
-    [Header("FadeUI  — _Progress  0 → 1")]
+    [Header("FadeUI")]
     public Material fadeUIMaterial;
     public float    fadeDuration = 1f;
     public float    fadeDelay    = 0f;
 
     // ── DistorcionUI ─────────────────────────────────────────────────────────
-    [Header("DistorcionUI  — _Opacidad  0 → 1")]
+    [Header("DistorcionUI")]
     public Material distorcionUIMaterial;
     public float    distOpacidadDuration = 1f;
     public float    distOpacidadDelay    = 0f;
+    public float    distFloat1Duration   = 1f;
+    public float    distFloat1Delay      = 0f;
 
-    [Header("DistorcionUI  — _Float1  2.5 → 0")]
-    public float distFloat1Duration = 1f;
-    public float distFloat1Delay    = 0f;
-
-    // ── Titulo (empujar hacia arriba, queda en pantalla) ────────────────────
-    [Header("Push Titulo (sube y queda en pantalla)")]
+    // ── Titulo ───────────────────────────────────────────────────────────────
+    [Header("Push Titulo")]
     public RectTransform tituloTransform;
-    [Tooltip("Cantidad de pixels que sube el titulo")]
     public float tituloPushDistance = 100f;
     public float tituloPushDuration = 0.6f;
     public float tituloPushDelay    = 0f;
     public AnimationCurve tituloPushCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     // ── BurnUI ───────────────────────────────────────────────────────────────
-    [Header("BurnUI  — _Progress  -1 → 1")]
+    [Header("BurnUI")]
     public Material burnUIMaterial;
     public float    burnDuration = 1f;
     public float    burnDelay    = 0f;
 
+    // ── Posiciones originales cacheadas ──────────────────────────────────────
+    Vector2[]  _scrollOrigins;
+    Vector2    _tituloOrigin;
+
     // ────────────────────────────────────────────────────────────────────────
+
+    void Awake()
+    {
+        CacheOrigins();
+    }
+
+    void CacheOrigins()
+    {
+        if (scrollElements != null)
+        {
+            _scrollOrigins = new Vector2[scrollElements.Length];
+            for (int i = 0; i < scrollElements.Length; i++)
+                _scrollOrigins[i] = scrollElements[i].anchoredPosition;
+        }
+
+        if (tituloTransform != null)
+            _tituloOrigin = tituloTransform.anchoredPosition;
+    }
 
     void Start() => Play();
 
@@ -57,10 +75,19 @@ public class UIOrchestrator : MonoBehaviour
 
     void ResetAll()
     {
-        if (fadeUIMaterial         != null) fadeUIMaterial.SetFloat("_Progress",  0f);
-        if (distorcionUIMaterial   != null) distorcionUIMaterial.SetFloat("_Opacidad", 0f);
-        if (distorcionUIMaterial   != null) distorcionUIMaterial.SetFloat("_Float1",   2.5f);
-        if (burnUIMaterial         != null) burnUIMaterial.SetFloat("_Progress",  -1f);
+        // Materiales
+        if (fadeUIMaterial       != null) fadeUIMaterial.SetFloat("_Progress",   0f);
+        if (distorcionUIMaterial != null) distorcionUIMaterial.SetFloat("_Opacidad", 0f);
+        if (distorcionUIMaterial != null) distorcionUIMaterial.SetFloat("_Float1",   2.5f);
+        if (burnUIMaterial       != null) burnUIMaterial.SetFloat("_Progress",   -1f);
+
+        // Posiciones
+        if (scrollElements != null && _scrollOrigins != null)
+            for (int i = 0; i < scrollElements.Length; i++)
+                scrollElements[i].anchoredPosition = _scrollOrigins[i];
+
+        if (tituloTransform != null)
+            tituloTransform.anchoredPosition = _tituloOrigin;
     }
 
     IEnumerator RunAll()
@@ -74,7 +101,7 @@ public class UIOrchestrator : MonoBehaviour
         if (distorcionUIMaterial != null)
         {
             StartCoroutine(AnimateFloat(distorcionUIMaterial, "_Opacidad", 0f, 1f, distOpacidadDuration, distOpacidadDelay));
-            StartCoroutine(AnimateFloat(distorcionUIMaterial, "_Float1",   2.5f, 0f, distFloat1Duration,  distFloat1Delay));
+            StartCoroutine(AnimateFloat(distorcionUIMaterial, "_Float1", 2.5f, 0f, distFloat1Duration, distFloat1Delay));
         }
 
         if (tituloTransform != null)
@@ -92,45 +119,35 @@ public class UIOrchestrator : MonoBehaviour
     {
         if (slideDelay > 0f) yield return new WaitForSeconds(slideDelay);
 
-        // Partir de la posicion actual y salir hacia arriba
-        Vector2[] origins = new Vector2[scrollElements.Length];
-        for (int i = 0; i < scrollElements.Length; i++)
-            origins[i] = scrollElements[i].anchoredPosition;
-
         float t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime / Mathf.Max(slideDuration, 0.001f);
             float eval = slideCurve.Evaluate(Mathf.Clamp01(t));
             for (int i = 0; i < scrollElements.Length; i++)
-            {
                 scrollElements[i].anchoredPosition = Vector2.LerpUnclamped(
-                    origins[i],
-                    origins[i] + new Vector2(0f, slideDistance),
+                    _scrollOrigins[i],
+                    _scrollOrigins[i] + new Vector2(0f, slideDistance),
                     eval
                 );
-            }
             yield return null;
         }
 
-        // Asegurar posicion final exacta
         for (int i = 0; i < scrollElements.Length; i++)
-            scrollElements[i].anchoredPosition = origins[i] + new Vector2(0f, slideDistance);
+            scrollElements[i].anchoredPosition = _scrollOrigins[i] + new Vector2(0f, slideDistance);
     }
 
     IEnumerator AnimatePushTitulo()
     {
         if (tituloPushDelay > 0f) yield return new WaitForSeconds(tituloPushDelay);
 
-        Vector2 origin = tituloTransform.anchoredPosition;
-        Vector2 target = origin + new Vector2(0f, tituloPushDistance);
-
+        Vector2 target = _tituloOrigin + new Vector2(0f, tituloPushDistance);
         float t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime / Mathf.Max(tituloPushDuration, 0.001f);
             tituloTransform.anchoredPosition = Vector2.LerpUnclamped(
-                origin, target, tituloPushCurve.Evaluate(Mathf.Clamp01(t))
+                _tituloOrigin, target, tituloPushCurve.Evaluate(Mathf.Clamp01(t))
             );
             yield return null;
         }

@@ -12,7 +12,7 @@ public class PostProcessController : MonoBehaviour
 {
     public enum Effect { None = 0, Flashbang = 1, Drunk = 2, WakeUp = 3 }
 
-    [Header("Materiales (shaders de Amplify)")]
+    [Header("Materiales")]
     public Material flashbangMat;
     public Material drunkMat;
     public Material wakeUpMat;

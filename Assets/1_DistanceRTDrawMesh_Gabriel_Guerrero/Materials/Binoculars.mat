@@ -33,6 +33,6 @@ Material:
     - _Radio: 0.2
     - _Suavidad: 0.22
     m_Colors:
-    - _CentroDer: {r: 0.5936795, g: 1.1050583, b: 0, a: 0}
-    - _CentroIzq: {r: 0.43367952, g: 1.1050583, b: 0, a: 0}
+    - _CentroDer: {r: 0.5256265, g: 1.1629893, b: 0, a: 0}
+    - _CentroIzq: {r: 0.36562645, g: 1.1629893, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Carta
+    second: {fileID: 2100000, guid: dff648c4ad146fc4391aaf255134e7f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Dentro
     second: {fileID: 2100000, guid: 565656f3f12774f45bc60b308803f7df, type: 2}
   - first:

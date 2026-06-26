@@ -140,10 +140,8 @@ Shader "RotateUI"
 				float sin17_g586 = sin( TimeVar197_g586 );
 				float2 rotator17_g586 = mul( temp_output_13_0_g586 - float2( 0.5,0.5 ) , float2x2( cos17_g586 , -sin17_g586 , sin17_g586 , cos17_g586 )) + float2( 0.5,0.5 );
 				float4 tex2DNode97_g586 = tex2D( _Rotation, rotator17_g586 );
-				float temp_output_115_0_g586 = step( ( (temp_output_13_0_g586).y + -0.5 ) , 0.0 );
-				float lerpResult125_g586 = lerp( 1.0 , tex2D( _RotationMask, IN.texcoord.xy ).g , ( 1.0 - temp_output_115_0_g586 ));
 				
-				half4 color = ( temp_output_192_0_g586 + ( ( ( tex2DNode97_g586 * lerpResult125_g586 * tex2DNode97_g586.a ) * _RotationTint ) * (temp_output_192_0_g586).a ) );
+				half4 color = ( temp_output_192_0_g586 + ( ( ( tex2DNode97_g586 * tex2D( _RotationMask, IN.texcoord.xy ).g * tex2DNode97_g586.a ) * _RotationTint ) * (temp_output_192_0_g586).a ) );
 				
 				#ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
@@ -164,7 +162,7 @@ Shader "RotateUI"
 }
 /*ASEBEGIN
 Version=18900
-302;73;1083;636;1393.891;-143.8619;1;True;False
+238;73;999;644;1301.317;-6.981354;1;True;False
 Node;AmplifyShaderEditor.TemplateShaderPropertyNode;1;-1450.904,-146.9988;Inherit;True;0;0;_MainTex;Shader;False;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;3;-1210.123,-151.0984;Inherit;True;Property;_TextureSample4;Texture Sample 4;26;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateShaderPropertyNode;2;-1064.257,37.76482;Inherit;False;0;0;_Color;Shader;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -173,8 +171,8 @@ Node;AmplifyShaderEditor.Vector4Node;7;-595.085,369.1792;Float;False;Property;_R
 Node;AmplifyShaderEditor.ColorNode;6;-886.2742,91.93604;Float;False;Property;_RotationTint;Rotation Tint;10;0;Create;True;0;0;0;False;0;False;0,0.3379312,1,1;0,0.3379312,1,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TexturePropertyNode;5;-894.333,266.936;Float;True;Property;_Rotation;Rotation;7;0;Create;True;0;0;0;False;0;False;None;a89fe7b6f57d9e44d926a5e95093db52;False;black;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.TexturePropertyNode;8;-891.2742,464.936;Float;True;Property;_RotationMask;Rotation Mask;8;0;Create;True;0;0;0;False;0;False;None;b1af5036b3a86514ea33dcb0049e111b;False;black;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.FunctionNode;9;-354.0114,60.75936;Inherit;False;UI-Sprite Effect Layer;0;;586;789bf62641c5cfe4ab7126850acc22b8;18,74,2,204,2,191,1,225,0,242,0,237,0,249,0,186,0,177,0,182,0,229,0,92,1,98,1,234,0,126,0,129,1,130,1,31,2;18;192;COLOR;0,0,0,1;False;39;COLOR;1,1,1,1;False;37;SAMPLER2D;;False;218;FLOAT2;0,0;False;239;FLOAT2;0,0;False;181;FLOAT2;0,0;False;75;SAMPLER2D;;False;80;FLOAT;1;False;183;FLOAT2;0,0;False;188;SAMPLER2D;;False;33;SAMPLER2D;;False;248;FLOAT2;0,0;False;233;SAMPLER2D;;False;101;SAMPLER2D;;False;57;FLOAT4;0,0,0,0;False;40;FLOAT;0;False;231;FLOAT;1;False;30;FLOAT;1;False;2;COLOR;0;FLOAT2;172
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-32,48;Float;False;True;-1;2;ASEMaterialInspector;0;6;RotateUI;5056123faa0c79b47ab6ad7e8bf059a4;True;Default;0;0;Default;2;False;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;True;True;True;True;True;0;True;-9;False;False;False;False;False;False;False;True;True;0;True;-5;255;True;-8;255;True;-7;0;True;-4;0;True;-6;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;2;False;-1;True;0;True;-11;False;True;5;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;CanUseSpriteAtlas=True;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;0;;0;0;Standard;0;0;1;True;False;;False;0
+Node;AmplifyShaderEditor.FunctionNode;9;-354.0114,60.75936;Inherit;False;UI-Sprite Effect Layer;0;;586;789bf62641c5cfe4ab7126850acc22b8;18,74,2,204,2,191,1,225,0,242,0,237,0,249,0,186,0,177,0,182,0,229,0,92,1,98,1,234,0,126,0,129,0,130,1,31,2;18;192;COLOR;0,0,0,1;False;39;COLOR;1,1,1,1;False;37;SAMPLER2D;;False;218;FLOAT2;0,0;False;239;FLOAT2;0,0;False;181;FLOAT2;0,0;False;75;SAMPLER2D;;False;80;FLOAT;1;False;183;FLOAT2;0,0;False;188;SAMPLER2D;;False;33;SAMPLER2D;;False;248;FLOAT2;0,0;False;233;SAMPLER2D;;False;101;SAMPLER2D;;False;57;FLOAT4;0,0,0,0;False;40;FLOAT;0;False;231;FLOAT;1;False;30;FLOAT;1;False;2;COLOR;0;FLOAT2;172
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-32,48;Float;False;True;-1;2;ASEMaterialInspector;0;4;RotateUI;5056123faa0c79b47ab6ad7e8bf059a4;True;Default;0;0;Default;2;False;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;True;True;True;True;True;0;True;-9;False;False;False;False;False;False;False;True;True;0;True;-5;255;True;-8;255;True;-7;0;True;-4;0;True;-6;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;2;False;-1;True;0;True;-11;False;True;5;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;CanUseSpriteAtlas=True;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;0;;0;0;Standard;0;0;1;True;False;;False;0
 WireConnection;3;0;1;0
 WireConnection;4;0;3;0
 WireConnection;4;1;2;0
@@ -185,4 +183,4 @@ WireConnection;9;101;8;0
 WireConnection;9;57;7;0
 WireConnection;0;0;9;0
 ASEEND*/
-//CHKSM=DE06937C6F6712DA1E7934A15117EA28AE49A0DB
+//CHKSM=EC2BB13F0319150BBC549D89EB2507DF8B3AF64B
